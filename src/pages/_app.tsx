@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { type AppType } from "next/dist/shared/lib/utils";
 import { createTheme, MantineColorsTuple, MantineProvider } from '@mantine/core';
 import "@/styles/globals.css";
+import React from 'react';
 
 
 const myColor: MantineColorsTuple = [
