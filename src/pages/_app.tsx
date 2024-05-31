@@ -8,18 +8,19 @@ import "@/styles/globals.css";
 import React from 'react';
 
 
-const myColor: MantineColorsTuple = [
-  '#f3edff',
-  '#e0d7fa',
-  '#beabf0',
-  '#9a7ce6',
-  '#7c56de',
-  '#683dd9',
-  '#5f2fd8',
-  '#4f23c0',
-  '#451eac',
-  '#3a1899'
-];
+const myColor: MantineColorsTuple = 
+  [
+    "#e0fbff",
+    "#cbf2ff",
+    "#9ae2ff",
+    "#64d2ff",
+    "#3cc5fe",
+    "#23bcfe",
+    "#09b8ff",
+    "#00a1e4",
+    "#0090cd",
+    "#007cb5"
+  ];
 
 const theme = createTheme({
   colors: {
