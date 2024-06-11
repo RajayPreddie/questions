@@ -127,6 +127,7 @@ const SignIn = () => {
 }
 
 const onSubmit = (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
+    event?.preventDefault();
     handleSubmit(values, event).catch((error) => console.log("Error in onSubmit:", error));
 }
   return (
