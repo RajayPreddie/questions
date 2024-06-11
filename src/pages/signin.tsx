@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useSignInWithEmailAndPassword, useCreateUserWithEmailAndPassword} from 'react-firebase-hooks/auth'
 
 import {auth, db} from '../firebase/firestoreConfig'
@@ -52,8 +52,8 @@ const SignIn = () => {
 
 
 
-  const handleSubmit = async (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
-    event?.preventDefault();
+  const handleSubmit = async (values: FormValues) => {
+  
 
       console.log("Type:", type)
     if (type === 'login') {
@@ -99,16 +99,11 @@ const SignIn = () => {
 
       }
 
-      else if (createdUserError) {
-        if (createdUserError.code === 'auth/email-already-in-use') {
-          signInForm.setFieldError('email', 'Email already in use');
-        }
-        throw new Error(createdUserError.message);
-      }
+  
     
     }).catch(error=> {
         
-        console.log("Error during sign up: ", (error as Error).message)
+        console.log("Error during sign up: ", error)
       });
      
    
@@ -127,9 +122,26 @@ const SignIn = () => {
 }
 
 const onSubmit = (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
-    event?.preventDefault();
-    handleSubmit(values, event).catch((error) => console.log("Error in onSubmit:", error));
+    event?.preventDefault()
+    handleSubmit(values).catch((error) => console.log("Error in onSubmit:", error));
 }
+
+useEffect(() => {
+  if (createdUserError) {
+    if (createdUserError.code === 'auth/email-already-in-use') {
+      signInForm.setFieldError('email', 'Email already in use');
+    }
+    if (createdUserError.code === 'auth/weak-password') {
+      signInForm.setFieldError('password', 'Password is too weak');
+    }
+    if (createdUserError.code === 'auth/invalid-email') {
+      signInForm.setFieldError('email', 'Invalid email');
+
+  
+
+  }
+}
+}, [createdUserError, signInForm])
   return (
     <Paper radius="md" p="xl" withBorder >
     <Text size="lg" fw={500}>
