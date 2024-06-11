@@ -7,6 +7,7 @@ import "@/styles/globals.css";
 import React from 'react';
 import theme from '@/styles/theme';
 import BottomNavbar from '@/components/navigation/navbar';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 
@@ -15,6 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <MantineProvider theme={theme}>
       <Component {...pageProps} />
       <BottomNavbar />
+      <SpeedInsights/>
     </MantineProvider>
   );
 };
