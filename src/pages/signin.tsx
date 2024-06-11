@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
+import {useSignInWithEmailAndPassword, useCreateUserWithEmailAndPassword} from 'react-firebase-hooks/auth'
 
-import {auth} from '../firebase/firestoreConfig'
+import {auth, db} from '../firebase/firestoreConfig'
+import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore'
 import { useToggle, upperFirst } from '@mantine/hooks';
 import { useForm} from '@mantine/form';
 import {
@@ -18,6 +19,8 @@ import {
   Stack,
 } from '@mantine/core';
 import { sign } from 'crypto';
+import { FirebaseError, FirebaseOptions } from 'firebase/app';
+import { AuthError } from 'firebase/auth';
 interface FormValues {
   email: string;
   username: string;
@@ -27,6 +30,9 @@ interface FormValues {
 const SignIn = () => {
   // Sign in with Email and Password
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+  // Create User with Email and Password
+ 
+  const [createUserWithEmailAndPassword, createdUser, createdUserLoading, createdUserError] = useCreateUserWithEmailAndPassword(auth);
   const [type, toggle] = useToggle(['login',
     'register']);
   // SignIn State
@@ -43,23 +49,89 @@ const SignIn = () => {
       password: (val: string) => (val.length > 6 ? null : 'Password should include at least 6 characters'),
     },
   });
+ 
+  const handleSubmit = async (values: FormValues) => {
+ 
 
+      console.log("Type:", type)
+    if (type === 'login') {
+      try {
+      await signInWithEmailAndPassword(values.email, values.password);
+      console.log("User signed in")
+      } catch (error: unknown) {
+        console.log("Error during sign in: ", error)
+        if ((error as Error).message === "auth/user-not-found") {
+          signInForm.setFieldError('email', 'User not found');
+        } else if ((error as Error).message === "auth/wrong-password") {
+          signInForm.setFieldError('password', 'Wrong password');
+        }
+      }
+    } else {
+
+       // Check if username already exists
+       const usersCollectionRef = collection(db, 'users');
+       const q = query(usersCollectionRef, where('username', '==', values.username));
+       const querySnapshot = await getDocs(q);
+
+       if (!querySnapshot.empty) {
+         signInForm.setFieldError('username', 'Username already exists');
+         return;
+       }
+      // Obtain the created user
+    
+      
+      createUserWithEmailAndPassword(values.email, values.password).then(async (userCredential) => {
+           // Check if undefined
+      if (userCredential?.user) {
+        const user = userCredential.user;
+  
+        // Add a user document in the Firestore users collection
+        const document = doc(db, 'users', user.uid);
+        await setDoc(document, {
+          // Document fields
+          username: values.username,
+          createdAt: new Date().toISOString(),
+          // TODO: Add more fields in the future (friend requests, etc.)
+        });
+
+      }}).catch(error=> {
+        console.log("Error during user creation: ", error)
+      });
+     
+   
+    
+      
+       
+     
+      
+    
+     
+
+    }
+  
+
+  
+}
+
+const onSubmit = (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
+    event?.preventDefault();
+    handleSubmit(values).catch((error) => console.log("Error in onSubmit:", error));
+}
   return (
     <Paper radius="md" p="xl" withBorder >
     <Text size="lg" fw={500}>
       Welcome to Mantine, {type} with
     </Text>
-
-  
-    <form onSubmit={signInForm.onSubmit(() => {void signInWithEmailAndPassword(signInForm.values.email, signInForm.values.password)})}>
+    <form onSubmit={signInForm.onSubmit(onSubmit)}>
         <Stack>
           {type === 'register' && (
             <TextInput
               label="Username"
               placeholder="Your username"
               value={signInForm.values.username}
-              onChange={(event) => signInForm.setFieldValue('name', event.currentTarget.value)}
+              onChange={(event) => signInForm.setFieldValue('username', event.currentTarget.value)}
               radius="md"
+              error={signInForm.errors.username && signInForm.errors.username}
             />
           )}
 
@@ -69,7 +141,7 @@ const SignIn = () => {
             placeholder="hello@google.com"
             value={signInForm.values.email}
             onChange={(event) => signInForm.setFieldValue('email', event.currentTarget.value)}
-            error={signInForm.errors.email && 'Invalid email'}
+            error={(signInForm.errors.email ?? createdUserError?.code === 'auth/email-already-in-use') && 'Email already in use'}
             radius="md"
           />
 
