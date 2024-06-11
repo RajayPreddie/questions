@@ -49,9 +49,11 @@ const SignIn = () => {
       password: (val: string) => (val.length > 6 ? null : 'Password should include at least 6 characters'),
     },
   });
- 
-  const handleSubmit = async (values: FormValues) => {
- 
+
+
+
+  const handleSubmit = async (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
+    event?.preventDefault();
 
       console.log("Type:", type)
     if (type === 'login') {
@@ -82,9 +84,10 @@ const SignIn = () => {
       
       createUserWithEmailAndPassword(values.email, values.password).then(async (userCredential) => {
            // Check if undefined
+      
       if (userCredential?.user) {
         const user = userCredential.user;
-  
+     
         // Add a user document in the Firestore users collection
         const document = doc(db, 'users', user.uid);
         await setDoc(document, {
@@ -94,8 +97,18 @@ const SignIn = () => {
           // TODO: Add more fields in the future (friend requests, etc.)
         });
 
-      }}).catch(error=> {
-        console.log("Error during user creation: ", error)
+      }
+
+      else if (createdUserError) {
+        if (createdUserError.code === 'auth/email-already-in-use') {
+          signInForm.setFieldError('email', 'Email already in use');
+        }
+        throw new Error(createdUserError.message);
+      }
+    
+    }).catch(error=> {
+        
+        console.log("Error during sign up: ", (error as Error).message)
       });
      
    
@@ -114,8 +127,7 @@ const SignIn = () => {
 }
 
 const onSubmit = (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => {
-    event?.preventDefault();
-    handleSubmit(values).catch((error) => console.log("Error in onSubmit:", error));
+    handleSubmit(values, event).catch((error) => console.log("Error in onSubmit:", error));
 }
   return (
     <Paper radius="md" p="xl" withBorder >
@@ -141,7 +153,7 @@ const onSubmit = (values: FormValues, event: React.FormEvent<HTMLFormElement> | 
             placeholder="hello@google.com"
             value={signInForm.values.email}
             onChange={(event) => signInForm.setFieldValue('email', event.currentTarget.value)}
-            error={(signInForm.errors.email ?? createdUserError?.code === 'auth/email-already-in-use') && 'Email already in use'}
+            error={signInForm.errors.email}
             radius="md"
           />
 
