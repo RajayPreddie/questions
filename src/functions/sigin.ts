@@ -1,4 +1,4 @@
-import { type FormValues,type SignInResponse, ErrorResponse } from "@/types/formTypes";
+import { type FormValues,type SignInResponse, type ErrorResponse } from "@/types/signin";
 import { type UseFormReturnType } from "@mantine/form";
 import router from "next/router";
 

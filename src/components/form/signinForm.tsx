@@ -1,15 +1,10 @@
 import { UseFormReturnType } from '@mantine/form';
 import React from 'react'
-import {type FormValues} from '../../types/formTypes'
+import {type FormValues} from '../../types/signin'
 import { Paper, TextInput, PasswordInput, Group, Button, Text, Anchor, Stack, Checkbox } from '@mantine/core';
 import { upperFirst } from '@mantine/hooks';
+import { type SigninFormProps } from '@/types/signinForm';
 
-interface SigninFormProps {
-type: string;
-signInForm: UseFormReturnType<FormValues>;
-onSubmit: (values: FormValues, event: React.FormEvent<HTMLFormElement> | undefined) => void;
-toggle: () => void;
-}
 const SigninForm: React.FC<SigninFormProps> = ({ type, toggle,  signInForm, onSubmit }) => {
   return (
     <Paper radius="md" p="xl" withBorder >
