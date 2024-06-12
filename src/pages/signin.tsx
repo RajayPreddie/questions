@@ -87,7 +87,7 @@ const SignIn = () => {
       
       if (userCredential?.user) {
         const user = userCredential.user;
-     
+        
         // Add a user document in the Firestore users collection
         const document = doc(db, 'users', user.uid);
         await setDoc(document, {
@@ -99,8 +99,6 @@ const SignIn = () => {
 
       }
 
-  
-    
     }).catch(error=> {
         
         console.log("Error during sign up: ", error)
@@ -131,15 +129,6 @@ useEffect(() => {
     if (createdUserError.code === 'auth/email-already-in-use') {
       signInForm.setFieldError('email', 'Email already in use');
     }
-    if (createdUserError.code === 'auth/weak-password') {
-      signInForm.setFieldError('password', 'Password is too weak');
-    }
-    if (createdUserError.code === 'auth/invalid-email') {
-      signInForm.setFieldError('email', 'Invalid email');
-
-  
-
-  }
 }
 }, [createdUserError, signInForm])
   return (
