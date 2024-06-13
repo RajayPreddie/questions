@@ -1,4 +1,7 @@
-import { type MantineColorsTuple, type MantineThemeOverride } from '@mantine/core';
+import {
+  type MantineColorsTuple,
+  type MantineThemeOverride,
+} from '@mantine/core';
 
 const myColor: MantineColorsTuple = [
   '#e0fbff',

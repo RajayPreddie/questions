@@ -1,6 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { type AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { auth, db } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
 
 interface RegisterRequestBody {
@@ -9,7 +17,10 @@ interface RegisterRequestBody {
   username: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== 'POST') {
     return res.status(405).end(); // Method Not Allowed
   }
@@ -27,7 +38,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Create user with email and password
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
 
     if (userCredential?.user) {
       const user = userCredential.user;

@@ -1,7 +1,6 @@
 import { handleSignIn } from '@/functions/sigin';
 import { useForm } from '@mantine/form';
 import { useToggle } from '@mantine/hooks';
-import { User } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import {

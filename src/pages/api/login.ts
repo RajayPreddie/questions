@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { type AuthError, signInWithEmailAndPassword } from 'firebase/auth';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { auth } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
 
 interface LoginRequestBody {
@@ -7,7 +8,10 @@ interface LoginRequestBody {
   password: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== 'POST') {
     return res.status(405).end(); // Method Not Allowed
   }
@@ -15,8 +19,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { email, password } = req.body as LoginRequestBody;
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    res.status(200).json({ message: 'User signed in', user: userCredential.user });
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    res
+      .status(200)
+      .json({ message: 'User signed in', user: userCredential.user });
   } catch (error: unknown) {
     console.error('Error during sign in:', error);
     if ((error as AuthError).code === 'auth/user-not-found') {

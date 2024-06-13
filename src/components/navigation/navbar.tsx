@@ -1,6 +1,7 @@
-import React from 'react';
 import Link from 'next/link';
-import { Home, User, QuestionMark, BrandInstagram} from 'tabler-icons-react';
+import React from 'react';
+import { BrandInstagram, Home, QuestionMark, User } from 'tabler-icons-react';
+
 import styles from '../../styles/navbar.module.css';
 export default function BottomNavbar() {
   return (
