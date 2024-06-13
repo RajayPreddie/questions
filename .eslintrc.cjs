@@ -8,11 +8,11 @@ const config = {
   },
   plugins: [
     '@typescript-eslint',
+    'unused-imports',
     'import',
     'prettier',
     'react-hooks',
-    'jsx-a11y',
-    'unused-imports'
+    'jsx-a11y'
   ],
   extends: [
     'next/core-web-vitals',
@@ -39,6 +39,7 @@ const config = {
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
+        caughtErrors: 'all',
       },
     ],
     '@typescript-eslint/require-await': 'off',
@@ -72,7 +73,9 @@ const config = {
         unusedExports: true,
       },
     ],
-    'unused-imports/no-unused-imports': 'warn',
+
+    // Unused imports and variables
+    'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
       'warn',
       {
