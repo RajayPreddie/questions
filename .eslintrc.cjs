@@ -12,6 +12,7 @@ const config = {
     'prettier',
     'react-hooks',
     'jsx-a11y',
+    'unused-imports'
   ],
   extends: [
     'next/core-web-vitals',
@@ -37,6 +38,7 @@ const config = {
       'warn',
       {
         argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
       },
     ],
     '@typescript-eslint/require-await': 'off',
@@ -68,6 +70,16 @@ const config = {
       'warn',
       {
         unusedExports: true,
+      },
+    ],
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
       },
     ],
 
@@ -108,4 +120,3 @@ const config = {
 };
 
 module.exports = config;
-
