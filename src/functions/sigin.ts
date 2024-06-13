@@ -1,8 +1,4 @@
-import {
-  type ErrorResponse,
-  type FormValues,
-  type SignInResponse,
-} from '@/types/signin';
+import { type ErrorResponse, type FormValues } from '@/types/signin';
 import { type UseFormReturnType } from '@mantine/form';
 import router from 'next/router';
 
@@ -36,12 +32,9 @@ export async function handleSignIn(
       const data: ErrorResponse = (await response.json()) as ErrorResponse;
       throw new Error(data.error);
     }
-    // TODO
-    const data: SignInResponse = (await response.json()) as SignInResponse;
 
     await router.push('/'); // Replace with your desired route
   } catch (error: unknown) {
-    console.error('Error:', (error as Error).message);
     if ((error as Error).message === 'User not found') {
       signInForm.setFieldError('email', 'User not found');
     } else if ((error as Error).message === 'Wrong password') {
