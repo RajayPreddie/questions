@@ -1,5 +1,6 @@
 import { type User } from 'firebase/auth';
 
+// Types for signin
 export interface FormValues {
   email: string;
   username: string;
