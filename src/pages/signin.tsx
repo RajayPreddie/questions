@@ -1,44 +1,31 @@
-import { handleSignIn } from '@/functions/sigin';
-import { useForm } from '@mantine/form';
-import { useToggle } from '@mantine/hooks';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import {
-  useCreateUserWithEmailAndPassword,
-  useSignInWithEmailAndPassword,
-} from 'react-firebase-hooks/auth';
-
 import SignInForm from '../components/form/signinForm';
 import * as constants from '../constants/signin';
 import { auth } from '../firebase/firestoreConfig';
 import { type FormValues } from '../types/signin';
+import { handleSignIn } from '@/functions/sigin';
+import { useForm } from '@mantine/form';
+import { useToggle } from '@mantine/hooks';
+import React, { useEffect } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
-// TODO: check if anything else is needed
 const SignIn = () => {
-  // Sign in with Email and Password
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
   // Create User with Email and Password
   const [
-    createUserWithEmailAndPassword,
-    createdUser,
-    createdUserLoading,
+    _createUserWithEmailAndPassword,
+    _createdUser,
+    _createdUserLoading,
     createdUserError,
   ] = useCreateUserWithEmailAndPassword(auth);
   const [type, toggle] = useToggle(['login', 'register']);
   // SignIn State
   const signInForm = useForm(constants.INITIAL_FORM_SETUP);
-  // Shift to different pages
-  const router = useRouter();
 
-  const onSubmit = (
+  const onSubmit = async (
     values: FormValues,
     event: React.FormEvent<HTMLFormElement> | undefined,
   ) => {
     event?.preventDefault();
-    handleSignIn(signInForm.values, type, signInForm).catch((error) =>
-      console.log('Error in onSubmit:', error),
-    );
+    await handleSignIn(signInForm.values, type, signInForm);
   };
   useEffect(() => {
     if (createdUserError) {
@@ -56,4 +43,5 @@ const SignIn = () => {
     />
   );
 };
+// eslint-disable-next-line import/no-unused-modules
 export default SignIn;

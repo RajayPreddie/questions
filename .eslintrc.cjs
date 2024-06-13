@@ -59,7 +59,7 @@ const config = {
     'import/order': [
       'warn',
       {
-        groups: [['builtin', 'external', 'internal']],
+        groups: [['builtin', 'external', 'internal', 'parent', 'sibling', 'index']],
         'newlines-between': 'always',
         alphabetize: {
           order: 'asc',
@@ -121,6 +121,3 @@ const config = {
 };
 
 module.exports = config;
-
-
-

@@ -1,3 +1,4 @@
+import { auth, db } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
 import { type AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
 import {
   collection,
@@ -9,18 +10,14 @@ import {
 } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { auth, db } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
-
 interface RegisterRequestBody {
   email: string;
   password: string;
   username: string;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).end(); // Method Not Allowed
   }
@@ -54,7 +51,6 @@ export default async function handler(
       res.status(201).json({ message: 'User registered', user: user });
     }
   } catch (error: unknown) {
-    console.error('Error during sign up:', error);
     if ((error as AuthError).code === 'auth/email-already-in-use') {
       res.status(400).json({ error: 'Email already in use' });
     } else {

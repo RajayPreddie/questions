@@ -1,8 +1,8 @@
+import styles from '../../styles/navbar.module.css';
 import Link from 'next/link';
 import React from 'react';
 import { BrandInstagram, Home, QuestionMark, User } from 'tabler-icons-react';
 
-import styles from '../../styles/navbar.module.css';
 export default function BottomNavbar() {
   return (
     <div className={styles.navbar}>

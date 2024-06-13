@@ -1,5 +1,3 @@
-import { type User } from 'firebase/auth';
-
 // Types for signin
 export interface FormValues {
   email: string;
@@ -8,10 +6,6 @@ export interface FormValues {
   terms: boolean;
 }
 
-export interface SignInResponse {
-  message: string;
-  user: User;
-}
 export interface ErrorResponse {
   error: string;
 }
