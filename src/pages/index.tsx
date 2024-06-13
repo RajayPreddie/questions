@@ -1,13 +1,13 @@
-import Head from "next/head";
-import Link from "next/link";
-import styles from "./index.module.css";
-import React from "react";
+import Head from 'next/head';
+import Link from 'next/link';
+import React from 'react';
 
+import styles from './index.module.css';
 
 export default function Home() {
   return (
     <>
-      <div> Hello World. This is the home page.</div>
+      <div> Hello World. This is the home page. Changes will be made soon</div>
     </>
   );
 }
