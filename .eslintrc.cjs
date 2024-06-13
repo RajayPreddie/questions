@@ -64,11 +64,18 @@ const config = {
         },
       },
     ],
+    'import/no-unused-modules': [
+      'warn',
+      {
+        unusedExports: true,
+      },
+    ],
 
     // Prettier integration
     'prettier/prettier': [
       'warn',
       {
+        semi: true,
         singleQuote: true,
         trailingComma: 'all',
         endOfLine: 'auto',
@@ -84,6 +91,14 @@ const config = {
     'curly': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'sort-imports': [
+      'warn',
+      {
+        ignoreCase: true,
+        ignoreDeclarationSort: true,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      },
+    ],
   },
   settings: {
     react: {
@@ -93,3 +108,4 @@ const config = {
 };
 
 module.exports = config;
+
