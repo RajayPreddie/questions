@@ -14,7 +14,7 @@ const QuestionsForm = () => {
       <Text size="lg" fw={500}>
         Add a question
       </Text>
-      <form onSubmit={signInForm.onSubmit(() => console.log('Hello'))}>
+      <form>
         <Stack>
           <TextInput
             label="Question Category"

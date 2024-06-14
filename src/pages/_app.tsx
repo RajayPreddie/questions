@@ -12,6 +12,7 @@ import React from 'react';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     <MantineProvider theme={theme}>
       <Component {...pageProps} />
       <BottomNavbar />

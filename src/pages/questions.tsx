@@ -14,7 +14,7 @@ import React from 'react';
 // Search bar to search for questions and a categories dropdown as a part of the search bar
 const Questions = () => {
   const handleQuestionsButtonClick = () => {
-    console.log('Questions button clicked');
+    return;
   };
   return (
     <div>
