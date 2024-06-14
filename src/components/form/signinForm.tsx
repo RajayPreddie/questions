@@ -12,7 +12,6 @@ import {
 } from '@mantine/core';
 import { upperFirst } from '@mantine/hooks';
 import React from 'react';
-
 const SigninForm: React.FC<SigninFormProps> = ({
   type,
   toggle,
@@ -97,5 +96,4 @@ const SigninForm: React.FC<SigninFormProps> = ({
     </Paper>
   );
 };
-
 export default SigninForm;
