@@ -1,4 +1,3 @@
-import HeaderSearch from '@/components/search/headerSearch';
 import { Button } from '@mantine/core';
 import React from 'react';
 
@@ -19,7 +18,6 @@ const Questions = () => {
   };
   return (
     <div>
-      <HeaderSearch />
       <Button onClick={handleQuestionsButtonClick}> Add Questions</Button>
     </div>
   );
