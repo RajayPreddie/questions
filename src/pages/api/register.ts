@@ -1,4 +1,4 @@
-import { auth, db } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
+import { auth, db } from '@/firebase/firestoreConfig'; // Adjust the import path as necessary
 import { type AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
 import {
   collection,

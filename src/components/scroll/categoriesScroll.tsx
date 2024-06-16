@@ -1,4 +1,4 @@
-import { type CategoriesScrollProps } from '../../types/categoriesScroll';
+import { type CategoriesScrollProps } from '@/types/categoriesScroll';
 import {
   Box,
   Popover,
@@ -85,7 +85,12 @@ const categories = [
 
 // TODO Props: Category selected for search
 // TODO: Props: List of available categories
-const CategoriesScroll: React.FC<CategoriesScrollProps> = () => {
+
+const CategoriesScroll: React.FC<CategoriesScrollProps> = ({
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [opened, setOpened] = useState(false);

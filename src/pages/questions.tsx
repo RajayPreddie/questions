@@ -1,4 +1,5 @@
 import { Button } from '@mantine/core';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 // TODO: Button to add a question
@@ -13,8 +14,10 @@ import React from 'react';
 // Better idea for the UI
 // Search bar to search for questions and a categories dropdown as a part of the search bar
 const Questions = () => {
-  const handleQuestionsButtonClick = () => {
-    return;
+  const router = useRouter();
+  // Navigate to the questions form page
+  const handleQuestionsButtonClick = async () => {
+    await router.push('/questions_form');
   };
   return (
     <div>

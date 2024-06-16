@@ -1,4 +1,4 @@
-import { auth } from '../../firebase/firestoreConfig'; // Adjust the import path as necessary
+import { auth } from '@/firebase/firestoreConfig'; // Adjust the import path as necessary
 import { type AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
