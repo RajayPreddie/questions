@@ -1,98 +1,28 @@
 import { type CategoriesScrollProps } from '@/types/categoriesScroll';
 import {
   Box,
+  MultiSelect,
   Popover,
   ScrollArea,
   Text,
-  TextInput,
   UnstyledButton,
 } from '@mantine/core';
 import { useRef, useState } from 'react';
-const categories = [
-  'General Knowledge',
-  'History',
-  'Geography',
-  'Science',
-  'Literature',
-  'Art',
-  'Technology',
-  'Software Development',
-  'Hardware',
-  'Internet & Networking',
-  'Artificial Intelligence',
-  'Cybersecurity',
-  'Entertainment',
-  'Movies',
-  'Music',
-  'Television Shows',
-  'Video Games',
-  'Celebrities',
-  'Sports',
-  'Football (Soccer)',
-  'Basketball',
-  'Baseball',
-  'Tennis',
-  'Olympic Games',
-  'Education',
-  'Mathematics',
-  'Physics',
-  'Chemistry',
-  'Biology',
-  'Languages',
-  'Health and Fitness',
-  'Nutrition',
-  'Exercise',
-  'Mental Health',
-  'Diseases and Conditions',
-  'Medical Treatments',
-  'Business and Finance',
-  'Economics',
-  'Investment',
-  'Entrepreneurship',
-  'Marketing',
-  'Management',
-  'Lifestyle',
-  'Travel',
-  'Food and Drink',
-  'Fashion',
-  'Home and Garden',
-  'Relationships',
-  'Society and Culture',
-  'Politics',
-  'Religion',
-  'Philosophy',
-  'Sociology',
-  'Traditions',
-  'Science and Nature',
-  'Astronomy',
-  'Biology',
-  'Ecology',
-  'Physics',
-  'Chemistry',
-  'Trivia and Fun Facts',
-  'Oddities',
-  'Records',
-  'Amazing Facts',
-  'Riddles',
-  'Quizzes',
-  'Current Events',
-  'News',
-  'World Events',
-  'Local Events',
-  'Weather',
-  'Social Issues',
-];
 
-// TODO Props: Category selected for search
-// TODO: Props: List of available categories
-
-const CategoriesScroll: React.FC<CategoriesScrollProps> = () => {
+const CategoriesScroll: React.FC<CategoriesScrollProps> = ({
+  categories,
+  selectedCategories,
+  setSelectedCategories,
+}) => {
+  // Save state for the category search value
+  const [searchCategory, setSearchCategory] = useState('');
   const viewportRef = useRef<HTMLDivElement>(null);
-  const [query, setQuery] = useState('');
+  // Handle opening and hovering over the dropdown
   const [opened, setOpened] = useState(false);
   const [hovered, setHovered] = useState(-1);
+  // Filter the categories by the search value
   const filtered = categories.filter((item) =>
-    item.toLowerCase().includes(query.toLowerCase()),
+    item.toLowerCase().includes(searchCategory.toLowerCase()),
   );
   const items = filtered.map((item, index) => (
     <UnstyledButton
@@ -110,39 +40,21 @@ const CategoriesScroll: React.FC<CategoriesScrollProps> = () => {
   return (
     <Popover width="target" opened={opened}>
       <Popover.Target>
-        <TextInput
-          value={query}
-          onFocus={() => setOpened(true)}
-          onBlur={() => setOpened(false)}
-          onChange={(event) => {
-            setQuery(event.currentTarget.value);
+        <MultiSelect
+          searchable
+          searchValue={searchCategory}
+          data={categories}
+          onSearchChange={(value) => {
+            setSearchCategory(value);
+            setSelectedCategories([value]);
             setHovered(-1);
           }}
-          onKeyDown={(event) => {
-            if (event.key === 'ArrowDown') {
-              event.preventDefault();
-              setHovered((current) => {
-                const nextIndex =
-                  current + 1 >= filtered.length ? current : current + 1;
-                viewportRef.current
-                  ?.querySelectorAll('[data-list-item]')
-                  ?.[nextIndex]?.scrollIntoView({ block: 'nearest' });
-                return nextIndex;
-              });
-            }
-
-            if (event.key === 'ArrowUp') {
-              event.preventDefault();
-              setHovered((current) => {
-                const nextIndex = current - 1 < 0 ? current : current - 1;
-                viewportRef.current
-                  ?.querySelectorAll('[data-list-item]')
-                  ?.[nextIndex]?.scrollIntoView({ block: 'nearest' });
-                return nextIndex;
-              });
-            }
+          onChange={(values) => {
+            setSelectedCategories(values);
+            setOpened(false);
           }}
-          placeholder="Search categories"
+          placeholder="Select or add up to 3 categories"
+          maxValues={3}
         />
       </Popover.Target>
       <Popover.Dropdown p={0}>

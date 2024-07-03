@@ -1,14 +1,75 @@
+import CategoriesScroll from '@/components/scroll/categoriesScroll';
 import * as constants from '@/constants/questions_form';
 import { Button, Paper, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useToggle } from '@mantine/hooks';
 import React from 'react';
+const categories = [
+  'General Knowledge',
+  'History',
+  'Geography',
+  'Science',
+  'Literature',
+  'Art',
+  'Technology',
+  'Software Development',
+  'Hardware',
+  'Internet & Networking',
+  'Artificial Intelligence',
+  'Cybersecurity',
+  'Entertainment',
+  'Movies',
+  'Music',
+  'Television Shows',
+  'Video Games',
+  'Celebrities',
+  'Sports',
+  'Football (Soccer)',
+  'Basketball',
+  'Baseball',
+  'Tennis',
+  'Olympic Games',
+  'Education',
+  'Mathematics',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Languages',
+  'Health and Fitness',
+  'Nutrition',
+  'Exercise',
+  'Mental Health',
+  'Diseases and Conditions',
+  'Medical Treatments',
+  'Business and Finance',
+  'Economics',
+  'Investment',
+  'Entrepreneurship',
+  'Marketing',
+  'Management',
+  'Lifestyle',
+  'Travel',
+  'Food and Drink',
+  'Fashion',
+  'Home and Garden',
+  'Relationships',
+  'Society and Culture',
+  'Politics',
+  'Religion',
+  'Philosophy',
+  'Sociology',
+  'Traditions',
+  'Science and Nature',
+];
 
-// TODO: add logic for adding a question category
+// TODO: add logic for
 // TODO: Use a toggle to decide between creating a new category or selecting an existing category
+// TODO: if the user selects create category, show a text input to create a new category, but also have the option to select two existing categories
 const QuestionsForm = () => {
   const [_type, _toggle] = useToggle(['Create Category', 'Select Category']);
+
   const signInForm = useForm(constants.INITIAL_QUESTIONS_FORM_SETUP);
+
   return (
     <Paper radius="md" p="xl" withBorder>
       <Text size="lg" fw={500}>
@@ -16,15 +77,12 @@ const QuestionsForm = () => {
       </Text>
       <form>
         <Stack>
-          <TextInput
-            label="Question Category"
-            placeholder="Your category"
-            value={signInForm.values.category}
-            onChange={(event) =>
-              signInForm.setFieldValue('categoy', event.currentTarget.value)
+          <CategoriesScroll
+            categories={categories}
+            selectedCategories={signInForm.values.categories}
+            setSelectedCategories={(categories: string[]) =>
+              signInForm.setFieldValue('categories', categories)
             }
-            radius="md"
-            error={signInForm.errors.category && signInForm.errors.category}
           />
           <TextInput
             label="Question"
