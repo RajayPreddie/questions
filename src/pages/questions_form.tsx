@@ -88,7 +88,7 @@ const QuestionsForm = () => {
             label="Question"
             placeholder="Your question"
             value={signInForm.values.question}
-            onChange={(event) =>
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               signInForm.setFieldValue('question', event.currentTarget.value)
             }
             radius="md"
@@ -100,7 +100,7 @@ const QuestionsForm = () => {
             label="Purpose"
             placeholder="Purpose of the question"
             value={signInForm.values.purpose}
-            onChange={(event) =>
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               signInForm.setFieldValue('email', event.currentTarget.value)
             }
             error={signInForm.errors.email}
